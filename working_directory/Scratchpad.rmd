@@ -1,0 +1,227 @@
+---
+title: "Lab1"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(stats)
+library(haven)
+library(xtable)
+library(knitr)
+
+#Read in data from .dta file in current working directory:
+df_2020 <- read_dta(file = "data_2020.dta")
+
+```
+
+Link to 2020 TimeSeries Dataset User Guide:
+https://electionstudies.org/wp-content/uploads/2021/03/anes_timeseries_2020_userguidecodebook_20210324.pdf
+
+
+
+----------------------------------------------------------------------
+1. Are Democratic voters older or younger than Republican voters in 2020?
+
+Respondent political affiliation: V201231x
+Respondent Age: V201507x
+```{r}
+df <- df_2020[,c("V201231x","V201507x")] %>%
+  mutate(
+    dem_ind = ifelse(V201231x == 1 | V201231x == 2 | V201231x == 3, TRUE, FALSE)
+  ) %>%
+  filter(((V201231x < 4 & V201231x > 0) | (V201231x > 4 & V201231x < 8)) & (V201507x >= 18))
+summary(df)
+colnames(df) <- c('party_id', 'age', 'dem_ind')
+party_age_hist <- df %>% 
+  ggplot() + 
+  aes(x = age, fill = dem_ind) + 
+  xlim(18,max(df$age)) +
+  geom_histogram(alpha = 0.5, position = 'identity', binwidth = 2) + 
+  labs(
+    title    = 'Political Party Affiliation Age Distributions',
+    subtitle = 'Fill this in with the main takeaway of the plot.', 
+    x        = 'Age',
+    y        = 'Count of Voters', 
+    fill     = 'Democrat'
+  )
+
+party_age_hist
+t.test(df$age ~ df$dem_ind)
+```
+
+----------------------------------------------------------------------
+2. Did Democratic voters or Republican voters report experiencing more difficulty 
+voting in the 2020
+election? (Exploratory, ungraded question: Were the types of reported difficulties 
+the same, or different for respondents who identify with the different parties? 
+We’re not going to grade this, and it isn’t a fully formed question here, but you [like us] 
+might be interested in exploring this while you’re writing up your report.)
+
+```{r, echo = FALSE}
+q2_data <- df_2020[, c('V201231x','V202119', 'V202120e','V202120i', 'V201024')] %>% 
+  mutate(
+    Party = ifelse(V201231x == 1 | V201231x == 2 | V201231x == 3, 'Democrat', 'Republican'),
+    Ordinal_Difficulty = ifelse(V202119 == 1, 'Not at All', 
+                                ifelse(V202119 ==2, 'A Little', 
+                                       ifelse(V202119 == 3, 'Moderately', 
+                                              ifelse(V202119 == 4, 'Very',
+                                                     ifelse(V202119 == 5, 'Extremely', NA)))))
+    )%>% 
+  filter(
+    (V201231x >= 1 & V201231x <= 3) | (V201231x >= 5 & V201231x <= 7),
+    V202119 >= 1 & V202119 <= 5
+  )
+
+#Rename Columns:
+colnames(q2_data) <- c("Political_Affiliation", "Difficulty_Voting", "Difficulty_Getting", "Difficulty_Mailing", "Voting_Method","Party","Ordinal_Difficulty")
+
+#Reorder Columns:
+q2_data <- q2_data[,c(1,6,2,7,5,3,4)]
+
+
+#Establish Order of Ordinal Variables:
+q2_data$Ordinal_Difficulty <- factor(q2_data$Ordinal_Difficulty, order = TRUE, 
+                                    levels = c("Not at All", "A Little",
+                                               "Moderately", "Very",
+                                               "Extremely"))
+
+
+```
+
+```{r}
+Dems = sum(q2_data$Party == 'Democrat')
+Reps = sum(q2_data$Party == 'Republican')
+
+data1 <- data.frame(
+  q2_data %>% 
+  group_by(
+    Ordinal_Difficulty,
+    Party
+  ) %>% 
+  summarise(
+    Democrats = 100*sum(Party =='Democrat')/Dems,
+    Republicans = 100*sum(Party == 'Republican')/Reps
+  ) %>% 
+  mutate(
+    Percent = Democrats+Republicans
+  )
+)
+
+data1 %>% 
+  ggplot()+
+  aes(x = Ordinal_Difficulty, y= Percent, fill = Party)+
+  geom_col(position = 'dodge', alpha = .7)+
+  scale_fill_manual(values = c("blue", "red"))+
+  labs(
+    title    = 'title',
+    subtitle = 'subtitle', 
+    x        = 'Difficulty Voting',
+    y        = 'Percentage of Respondents', 
+    fill     = 'Political Affiliation'
+  )
+
+tab2 <- q2_data %>%
+  group_by(Ordinal_Difficulty) %>%
+  summarise(
+    Democrat = round((100*length(which(Party == "Democrat"))/Dems), digits = 2),
+    Republican = round((100*length(which(Party == "Republican"))/Reps), digits = 2)
+  )
+
+
+knitr::kable(tab2)
+
+```
+
+#Wilcox Test: (non-parametric, ordinal variable, unpaired/ independent groups)
+
+```{r}
+wilcox.test(Difficulty_Voting ~ Party, data = q2_data)
+```
+
+#T-test: difficulty getting to polling site compared between Democrats and Republicans
+
+#first define a new df that consists of only the values in V202120e that are either 1 or 0 (exclude NA answers)
+
+#distribution of sample means should be approximately normal given sample size even if the distribution of V202120e is binomial 
+```{r}
+Getting_to_Polls <- q2_data %>%
+  filter(
+    (Difficulty_Getting >= 0)
+  ) %>% 
+  select(
+    Party,
+    Difficulty_Getting
+  )
+
+t.test(Getting_to_Polls$Difficulty_Getting ~ Getting_to_Polls$Party)
+```
+
+
+#T-test: difficulty mailing vote compared between Democrats and Republicans
+
+#first define a new df that consists of only the values in V202120i that are either 1 or 0 (exclude NA answers)
+
+#distribution of means should be approximately normal given sample size even if the distribution of V202120i is binomial 
+```{r}
+Mail<- q2_data %>%
+  filter(
+    (Difficulty_Mailing >= 0)
+  ) %>% 
+  select(
+    Party,
+    Difficulty_Mailing
+  )
+
+t.test(Mail$Difficulty_Mailing ~ Mail$Party, conf.level = .95)
+```
+
+
+
+----------------------------------------------------------------------
+3. Are people who believe that science is is important for making government 
+decisions about COVID-19 more likely to disapprove of the way their governor 
+is handling the pandemic?
+
+```{r}
+question3Data <- df_2020[, c("V202310", "V201145", "V201146")]
+colnames(question3Data) <- c("ImportanceOfScience", "ApproveGovernorsHandling",
+                             "StronglyOrNotStrongly")
+question3Data <- question3Data[question3Data$ApproveGovernorsHandling == 1 |
+                               question3Data$ApproveGovernorsHandling == 2, ]
+question3Data <- question3Data[question3Data$ImportanceOfScience > 0, ]
+question3Data$ApproveGovernorsHandling <- question3Data$ApproveGovernorsHandling == 1
+question3Data$IsScienceImportant <- question3Data$ImportanceOfScience > 1
+
+
+tab <- table(question3Data$ApproveGovernorsHandling, question3Data$IsScienceImportant)
+row.names(tab) <- c("Disapprove of Governor", "Approve of Governor")
+colnames(tab) <- c("Science isn't important", "Science is Important")
+tab
+
+difficulty_histogram <- question3Data %>% 
+  ggplot() + 
+  aes(x = ImportanceOfScience, fill = ApproveGovernorsHandling) + 
+  geom_histogram(alpha = .7, position = 'dodge', bins = 5, color = 'black') + 
+  scale_fill_manual(values = c("red", "blue"), 
+                    labels = c("Disapprove", "Approve"),
+                    name = "Approve of Governor's\nHandling of COVID-19") +
+  labs(
+    title    = 'title',
+    subtitle = 'subtitle', 
+    x        = 'Importance of Science',
+    y        = 'Voters', 
+    fill     = 'Approve of Governor'
+  )
+
+difficulty_histogram
+
+t.test(question3Data$ApproveGovernorsHandling ~ question3Data$IsScienceImportant, alternative = "g")
+```
+
+
+

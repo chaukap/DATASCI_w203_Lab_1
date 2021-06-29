@@ -1,0 +1,350 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Lab 1: Question 3},
+  pdfauthor={Chandler Haukap, Hassan Saad and Courtney Smith},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Lab 1: Question 3}
+\author{Chandler Haukap, Hassan Saad and Courtney Smith}
+\date{}
+
+\begin{document}
+\maketitle
+
+\hypertarget{are-people-who-believe-that-science-is-important-for-making-government-decisions-about-covid-19-more-likely-to-disapprove-of-the-way-their-governor-is-handling-the-pandemic}{%
+\section{Are people who believe that science is important for making
+government decisions about COVID-19 more likely to disapprove of the way
+their governor is handling the
+pandemic?}\label{are-people-who-believe-that-science-is-important-for-making-government-decisions-about-covid-19-more-likely-to-disapprove-of-the-way-their-governor-is-handling-the-pandemic}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(dplyr)}
+\KeywordTok{library}\NormalTok{(ggplot2) }
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{library}\NormalTok{(stats)}
+\KeywordTok{library}\NormalTok{(haven)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{importance-and-context}{%
+\subsection{Importance and Context}\label{importance-and-context}}
+
+Are people who believe that science is important for making government
+decisions about COVID-19 more likely to disapprove of the way their
+governor is handling the pandemic?
+
+Science is political. Or, more accurately, science has been
+\emph{politicized}.
+
+The recent pandemic has proven beyond a doubt that topics which should
+remain in the realm of logic, truth, and academic rigor can be twisted
+to suit the needs of political organizations and news outlets. Where we
+should find transparency we find manipulation, and where we should find
+honesty we find bias.
+
+Our current culture war has left a small but growing number of
+individuals so disillusioned with the scientific process that they
+reject conventional science outright. Studying the broader societal
+impact of the politicization of science is our only hope of finding a
+new normal that centers around truth as opposed to fear.
+
+Our data, as described below, gives us a novel opportunity to
+investigate the impact that the denial of the role of science in
+decision making has on a person's view of their elected officials.
+Specifically, we will explore whether or not a belief that science is
+important in making decisions about COVID-19 causes people to be more
+critical or their governor's handling of the pandemic. Hopefully, this
+research can help reveal broader trends arising out of our healing
+society.
+
+\hypertarget{description-of-data}{%
+\subsection{Description of Data}\label{description-of-data}}
+
+We will address this question using data from the preliminary release of
+the 2020 American National Election Studies (ANES). This dataset was
+pooled from 8,280 pre-election interviews conducted by web, video, or
+telephone. Preliminary in this context means that the data lacks some of
+the variables and processing that the full report will contain.
+
+The variables of interest in addressing this question are:
+
+\hypertarget{v202310-in-general-how-important-should-science-be-for-making-government-decisions-about-covid-19}{%
+\subsubsection{\texorpdfstring{1) \emph{V202310:} In general, how
+important should science be for making government decisions about
+COVID-19?}{1) V202310: In general, how important should science be for making government decisions about COVID-19?}}\label{v202310-in-general-how-important-should-science-be-for-making-government-decisions-about-covid-19}}
+
+Respondents were given the following options for answering this
+question.
+
+\begin{verbatim}
+## 
+## Labels:
+##  value                                                          label
+##     -9                                                    -9. Refused
+##     -7 -7. No post-election data, deleted due to incomplete interview
+##     -6                                 -6. No post-election interview
+##     -5                 -5. Interview breakoff (sufficient partial IW)
+##      1                                        1. Not at all important
+##      2                                          2. A little important
+##      3                                        3. Moderately important
+##      4                                              4. Very important
+##      5                                         5. Extremely important
+\end{verbatim}
+
+In processing the data, we removed all people that did not answer this
+question (responses -9, -7, -6, and -5). With these people removed we
+found that respondents overwhelmingly believed that science is important
+in making government decisions about the pandemic. 52.321307 percent
+responded that science is extremely important, while only 1.5929204
+percent responded that science is not at all important.
+
+\hypertarget{v201145-do-you-approve-or-disapprove-of-the-way-governor-of-respondents-preloaded-state-has-handled-the-covid-19-pandemic}{%
+\subsubsection{\texorpdfstring{2) \emph{V201145:} Do you approve or
+disapprove of the way {[}Governor of respondent's preloaded state{]} has
+handled the COVID-19
+pandemic?}{2) V201145: Do you approve or disapprove of the way {[}Governor of respondent's preloaded state{]} has handled the COVID-19 pandemic?}}\label{v201145-do-you-approve-or-disapprove-of-the-way-governor-of-respondents-preloaded-state-has-handled-the-covid-19-pandemic}}
+
+Of the 7345 respondents that answered this question 62.437032 percent
+approved of their governor's handling of the pandemic and 37.562968
+percent disapproved.
+
+\hypertarget{combining-approval-of-governor-and-importance-of-science}{%
+\subsubsection{Combining approval of governor and importance of
+science}\label{combining-approval-of-governor-and-importance-of-science}}
+
+\includegraphics{question_3_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\hypertarget{flattening-the-data}{%
+\subsubsection{Flattening the data}\label{flattening-the-data}}
+
+To perform a statistical test on this data set we must divide the data
+into two groups. These groups need to be
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  People who believe that science is important for making government
+  decisions about COVID-19
+\item
+  People who believe that science is \textbf{\emph{NOT}} important for
+  making government decisions about COVID-19
+\end{enumerate}
+
+Unfortunately, our survey participants were given five options when
+asked about the importance of science. To divide our data into two
+groups we chose to group together anyone that believes that science is
+at least a little important in making decisions about COVID-19.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{question3Data}\OperatorTok{$}\NormalTok{IsScienceImportant <-}\StringTok{ }\NormalTok{question3Data}\OperatorTok{$}\NormalTok{ImportanceOfScience }\OperatorTok{>}\StringTok{ }\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+This left us with two groups. Although the groups differ greatly in
+size, we can still use a t-test to compare their sample means.
+
+\begin{verbatim}
+##                         
+##                          Science isn't important Science is important
+##   Disapprove of Governor                      76                 2683
+##   Approve of Governor                         41                 4545
+\end{verbatim}
+
+\hypertarget{most-appropriate-test}{%
+\subsection{Most appropriate test}\label{most-appropriate-test}}
+
+Because we are comparing a binary variable (approve or disapprove)
+between two samples of differing size we will use a t-test to compare
+the proportion of people that approve of the governor.
+
+This test requires 3 assumptions:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\item
+  Metric scale: We are comparing the proportion of people that approve
+  of the governor's handling of COVID-19, this is a metric variable
+  between 0 and 1. Therefore, this assumption holds.
+\item
+  IID data: Participants in this study were selected from a random draw
+  from the USPS computerized delivery sequence file (C-DSF), with all
+  included residential addresses across the 50 states and Washington DC
+  having equal probability of selection. A cash incentive was used to
+  encourage participation. While there is undoubtedly some bias
+  associated with the individuals that chose to participate in the
+  survey, the selection process was fair and we've concluded that this
+  portion of the sample is independent and identically distributed
+  enough to warrant research on the resultant data.\n The other source
+  of data for this study was everyone that participated in the 2016
+  version of ANES. Emails were sent to these former participants
+  inviting them to participate again. Because this portion of the sample
+  is dependent on participation in the 2016 study, there is a concern
+  that the data isn't independent.
+\item
+  No major deviations from normality: Because COVID-19 is a very recent
+  development, there is not a body of research that could hint at what
+  the expected distribution of this data would be. However, average
+  approval of governors in general tends to be normally distributed.
+  Given that our smallest group contains 117 people the central limit
+  theorem should be sufficient to ensure that the sample mean is
+  normally distributed.
+\end{enumerate}
+
+Because the question asks if one group is \textbf{\emph{more}} likely to
+disapprove of the governor's handling of COVID-19 we will use a one
+tailed test.
+
+\hypertarget{hypothesis}{%
+\subsection{Hypothesis}\label{hypothesis}}
+
+\hypertarget{null}{%
+\subsubsection{Null}\label{null}}
+
+People who believe that science is important for making government
+decisions about COVID-19 are less or equally likely to disapprove of the
+way their governor is handling the pandemic.
+
+\hypertarget{alternative}{%
+\subsubsection{Alternative}\label{alternative}}
+
+People who believe that science is important for making government
+decisions about COVID-19 are more likely to disapprove of the way their
+governor is handling the pandemic.
+
+\hypertarget{test-results-and-interpretation}{%
+\subsection{Test, results and
+interpretation}\label{test-results-and-interpretation}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{t.test}\NormalTok{(question3Data}\OperatorTok{$}\NormalTok{ApproveGovernorsHandling }\OperatorTok{~}\StringTok{ }\NormalTok{question3Data}\OperatorTok{$}\NormalTok{IsScienceImportant, }\DataTypeTok{alternative =} \StringTok{"g"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Welch Two Sample t-test
+## 
+## data:  question3Data$ApproveGovernorsHandling by question3Data$IsScienceImportant
+## t = -6.2331, df = 119.85, p-value = 1
+## alternative hypothesis: true difference in means is greater than 0
+## 95 percent confidence interval:
+##  -0.3524104        Inf
+## sample estimates:
+## mean in group FALSE  mean in group TRUE 
+##           0.3504274           0.6288046
+\end{verbatim}
+
+We have failed to find any evidence to support the hypothesis that
+people who believe that science is important for making government
+decisions about COVID-19 more likely to disapprove of the way their
+governor is handling the pandemic.
+
+On the contrary, this data set suggests that a future experiment should
+explore the hypothesis that people who believe that science is important
+for making government decisions about COVID-19 are \emph{less} likely to
+disapprove of the way their governor is handling the pandemic. We did
+not set out to address this, and therefore we won't attempt any further
+tests in this report. But we believe that testing this hypothesis could
+prove more fruitful based on an exploration of our data.
+
+\end{document}
